@@ -14,11 +14,17 @@ bool check(char* word, char ch, char* displayWord, bool& win, int& suc) {
 		if (ch == word[i]) {
 			right = 1;
 			displayWord[i] = ch;
-			suc++;
 		}
 	}
 
-	if (len == suc) {
+	int lenMinus = 0;
+	for (int i = 0; i < len; i++) {
+		if (displayWord[i] == '-') {
+			lenMinus++;
+		}
+	}
+
+	if (lenMinus == 0) {
 		win = true;
 	}
 
@@ -148,11 +154,17 @@ int main() {
 			attempts--;
 		}
 		if (attempts == 0) {
-			cout << "YOU LOSE";
+			PlaySound(TEXT("lose.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+			cout << "YOU LOSE\n";
+			system("pause");
 			return 0;
 		}
-		system("cls");
+		if (!win)
+			system("cls");
 	}
-	cout << "YOU WIN";
+	cout << displayWord << "\n";
+	PlaySound(TEXT("win.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	cout << "YOU WIN\n";
+	system("pause");
 	return 0;
 }
